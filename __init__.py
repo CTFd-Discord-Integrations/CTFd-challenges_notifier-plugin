@@ -1,5 +1,7 @@
 from flask import Blueprint
 
+from .notify import *
+
 from CTFd.models import (
     ChallengeFiles,
     Challenges,
@@ -154,6 +156,9 @@ class CTFdStandardChallenge(BaseChallenge):
         """
         data = request.form or request.get_json()
         submission = data["submission"].strip()
+
+        disbot("<@" + str(user.oauth_id) + "> just solved " + str(challenge.name) + "!!")  # <--- LHC DISCORD SOLVE NOTIFIER
+
         solve = Solves(
             user_id=user.id,
             team_id=team.id if team else None,
